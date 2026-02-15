@@ -1,0 +1,19 @@
+*{
+    box-sizing: border-box;
+}
+
+#container{
+    padding: 0;
+    border: solid 2px black;
+    width: 80%;
+    margin: 16px auto;
+    aspect-ratio: 1/1;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.square-border{
+    box-sizing: border-box;
+    border: solid 1px green;
+    aspect-ratio: 1/1;
+}
