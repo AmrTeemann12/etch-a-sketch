@@ -5,7 +5,8 @@
 body{
     padding: 0;
     margin: 0;
-    background-color: tomato;
+    background-color: wheat;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 #container{
@@ -19,8 +20,9 @@ body{
 #grid-square{
     padding: 0;
     background-color: antiquewhite;
-    width: 90%;
-    margin: 16px auto;
+    border: solid 1px thistle;
+    width: 80%;
+    margin: 8px auto;
     aspect-ratio: 1/1;
     display: flex;
     flex-wrap: wrap;
@@ -28,18 +30,16 @@ body{
 
 .square-border{
     box-sizing: border-box;
-    border:solid 1px tomato;
+    border:solid 1px wheat;
     aspect-ratio: 1/1;
 }
 
 #set-grid{
     background-color: antiquewhite;
-    border: solid 1px wheat;
+    border:solid 1px thistle;
     padding: 16px;
-    width: 50%;
+    width: 40%;
     font-size: 18px;
-    font-weight: 500;
-    font-family:Arial, Helvetica, sans-serif;
 }
 
 .popup-container{
@@ -64,4 +64,10 @@ body{
     opacity: 1;
     pointer-events: auto;
     transition: 0.4s;
+}
+
+#options{
+    margin: 8px auto;
+    width: 70%;
+    display: flex;
 }

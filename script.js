@@ -1,7 +1,12 @@
 const container = document.querySelector("#grid-square");
+const set = document.querySelector("#set-grid");
+const bar = document.querySelector("#bar");
+const squaresNumber = document.querySelector("#squares-number");
+const popupContainer = document.querySelector(".popup-container");
+const randomColorsOption = document.querySelector("#random-colors");
 
 function createGrid(n){
-    if (!Number.isInteger(n)|| n < 0) return "please enter a valid whole number"
+    if (!Number.isInteger(n)|| n <= 0) return "please enter a valid whole number"
     const width = container.offsetWidth;
     const squareWidth = width/n;
     const squareWidthPercentage = squareWidth/width*100;
@@ -13,12 +18,24 @@ function createGrid(n){
 
         container.appendChild(square)
     }
-    etch()
+    if (randomColorsOption.checked){
+        etch(undefined, true)
+    } else {
+        etch()
+    }
 }
 
-function etch(){
+function getRandomColor(){
+    let r = Math.floor(Math.random()*256);
+    let g = Math.floor(Math.random()*256);
+    let b = Math.floor(Math.random()*256);
+    return `rgb(${r}, ${g}, ${b})`
+}
+
+function etch(color = "black", randomize = false){
+    
     let isMouseDown = false;
-    document.body.addEventListener("mousedown", (e) =>{
+    document.body.addEventListener("mousedown", () =>{
         isMouseDown = true;
     });
     container.addEventListener("mousedown", (e) =>{
@@ -31,17 +48,15 @@ function etch(){
     squares.forEach(square => square.addEventListener("mouseenter", (e) =>{
         e.preventDefault()
         if (isMouseDown){
-        e.target.style.backgroundColor = "black"
+            if(randomize){
+                e.target.style.backgroundColor = getRandomColor();
+            } else {
+            e.target.style.backgroundColor = color;
+            }
         }
     }));
 }
 
-createGrid(16)
-
-const set = document.querySelector("#set-grid");
-const bar = document.querySelector("#bar");
-const squaresNumber = document.querySelector("#squares-number");
-const popupContainer = document.querySelector(".popup-container");
 
 bar.value = 16;
 squaresNumber.textContent = `${bar.value} x ${bar.value}`
@@ -60,3 +75,13 @@ set.addEventListener("click", (e) =>{
 bar.addEventListener("blur", () => {
     popupContainer.classList.remove("active")
 })
+
+randomColorsOption.addEventListener("click", () => {
+    if (randomColorsOption.checked){
+        etch(undefined, true)
+    } else {
+        etch()
+    }
+})
+
+createGrid(16)
