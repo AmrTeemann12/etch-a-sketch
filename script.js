@@ -6,6 +6,7 @@ const popupContainer = document.querySelector(".popup-container");
 const randomColorsOption = document.querySelector("#random-colors");
 
 function createGrid(n){
+    container.innerHTML="";
     if (!Number.isInteger(n)|| n <= 0) return "please enter a valid whole number"
     const width = container.offsetWidth;
     const squareWidth = width/n;
@@ -18,11 +19,17 @@ function createGrid(n){
 
         container.appendChild(square)
     }
-    if (randomColorsOption.checked){
-        etch(undefined, true)
-    } else {
-        etch()
-    }
+    const squares = document.querySelectorAll(".square-border");
+    squares.forEach(square => square.addEventListener("mouseenter", (e) =>{
+        e.preventDefault()
+        if(isMouseDown){
+            if(randomColorsOption.checked){
+            etch(square, undefined, true)
+            } else {
+            etch(square)
+            }
+        }
+    }))
 }
 
 function getRandomColor(){
@@ -32,36 +39,29 @@ function getRandomColor(){
     return `rgb(${r}, ${g}, ${b})`
 }
 
-function etch(color = "black", randomize = false){
-    
-    let isMouseDown = false;
-    document.body.addEventListener("mousedown", () =>{
-        isMouseDown = true;
-    });
-    container.addEventListener("mousedown", (e) =>{
-        e.preventDefault()
-    })
-    document.addEventListener("mouseup", () => isMouseDown = false);
-    document.addEventListener("mouseleave", () => isMouseDown = false);
-    const squares = document.querySelectorAll(".square-border");
+function etch(elem, color = "black", randomize = false){
 
-    squares.forEach(square => square.addEventListener("mouseenter", (e) =>{
-        e.preventDefault()
-        if (isMouseDown){
-            if(randomize){
-                e.target.style.backgroundColor = getRandomColor();
-            } else {
-            e.target.style.backgroundColor = color;
-            }
-        }
-    }));
+    if(randomize){
+        elem.style.backgroundColor = getRandomColor();
+    } else {
+        elem.style.backgroundColor = color;
+    }
 }
 
+let isMouseDown = false;
+document.body.addEventListener("mousedown", () =>{
+    isMouseDown = true;
+});
+container.addEventListener("mousedown", (e) =>{
+    e.preventDefault()
+})
+document.addEventListener("mouseup", () => isMouseDown = false);
+document.addEventListener("mouseleave", () => isMouseDown = false);
 
 bar.value = 16;
 squaresNumber.textContent = `${bar.value} x ${bar.value}`
 bar.addEventListener("input", (e) => {
-    container.innerHTML="";
+    
     squaresNumber.textContent = `${e.target.value} x ${e.target.value}`
     createGrid(+(e.target.value))
 })
@@ -74,14 +74,6 @@ set.addEventListener("click", (e) =>{
 
 bar.addEventListener("blur", () => {
     popupContainer.classList.remove("active")
-})
-
-randomColorsOption.addEventListener("click", () => {
-    if (randomColorsOption.checked){
-        etch(undefined, true)
-    } else {
-        etch()
-    }
 })
 
 createGrid(16)

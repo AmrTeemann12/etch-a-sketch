@@ -66,6 +66,10 @@ body{
     transition: 0.4s;
 }
 
+.idle{
+    pointer-events: none;
+}
+
 #options{
     margin: 8px auto;
     width: 70%;
