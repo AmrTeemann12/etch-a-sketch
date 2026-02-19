@@ -1,4 +1,4 @@
-const container = document.querySelector("#container");
+const container = document.querySelector("#grid-square");
 
 function createGrid(n){
     if (!Number.isInteger(n)|| n < 0) return "please enter a valid whole number"
@@ -16,14 +16,14 @@ function createGrid(n){
     etch()
 }
 
-createGrid(16)
-
 function etch(){
     let isMouseDown = false;
     document.body.addEventListener("mousedown", (e) =>{
-        e.preventDefault()
         isMouseDown = true;
     });
+    container.addEventListener("mousedown", (e) =>{
+        e.preventDefault()
+    })
     document.addEventListener("mouseup", () => isMouseDown = false);
     document.addEventListener("mouseleave", () => isMouseDown = false);
     const squares = document.querySelectorAll(".square-border");
@@ -36,10 +36,27 @@ function etch(){
     }));
 }
 
+createGrid(16)
+
 const set = document.querySelector("#set-grid");
+const bar = document.querySelector("#bar");
+const squaresNumber = document.querySelector("#squares-number");
+const popupContainer = document.querySelector(".popup-container");
+
+bar.value = 16;
+squaresNumber.textContent = `${bar.value} x ${bar.value}`
+bar.addEventListener("input", (e) => {
+    container.innerHTML="";
+    squaresNumber.textContent = `${e.target.value} x ${e.target.value}`
+    createGrid(+(e.target.value))
+})
 
 set.addEventListener("click", (e) =>{
-    e.preventDefault();
-    container.innerHTML="";
-    createGrid(+prompt("pick a number for squares per side."), 10)
+    e.preventDefault()
+    popupContainer.classList.add("active")
+    bar.focus()
+})
+
+bar.addEventListener("blur", () => {
+    popupContainer.classList.remove("active")
 })
