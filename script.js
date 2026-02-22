@@ -7,7 +7,10 @@ const randomColorsOption = document.querySelector("#random-colors");
 
 function createGrid(n){
     container.innerHTML="";
-    if (!Number.isInteger(n)|| n <= 0) return "please enter a valid whole number"
+    if (!Number.isInteger(n)|| n <= 0){
+        alert("please enter a valid whole number")
+        return;
+    }
     const width = container.offsetWidth;
     const squareWidth = width/n;
     const squareWidthPercentage = squareWidth/width*100;
@@ -19,12 +22,13 @@ function createGrid(n){
 
         container.appendChild(square)
     }
+
     const squares = document.querySelectorAll(".square-border");
     squares.forEach(square => square.addEventListener("mouseenter", (e) =>{
         e.preventDefault()
         if(isMouseDown){
             if(randomColorsOption.checked){
-            etch(square, undefined, true)
+            etch(square, "randomize")
             } else {
             etch(square)
             }
@@ -39,9 +43,9 @@ function getRandomColor(){
     return `rgb(${r}, ${g}, ${b})`
 }
 
-function etch(elem, color = "black", randomize = false){
+function etch(elem, color = "black"){
 
-    if(randomize){
+    if(color === "randomize"){
         elem.style.backgroundColor = getRandomColor();
     } else {
         elem.style.backgroundColor = color;
